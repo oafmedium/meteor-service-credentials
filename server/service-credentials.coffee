@@ -13,6 +13,36 @@ ServiceCredentials.get = (identifier) ->
   service = @_collection.findOne identifier: identifier
   service.credentials if service?
 
+ServiceCredentials.public = (self) ->
+  services = @_collection.find
+    identifier:
+      $in: @_used
+
+  getClientService = (service) ->
+    tmpService = _.clone service
+    delete tmpService.fields
+    delete tmpService._id
+    delete tmpService.description
+    tmpService.credentials = {}
+    for key of service.credentials
+      credential = service.credentials[key]
+      field = service.fields[key]
+      tmpService.credentials[key] = credential if field.public
+
+    tmpService
+
+  handle = services.observe
+    added: (service) ->
+      self.added 'meteor_servicecredentials', service._id, getClientService(service)
+      console.log service
+    changed: (service, old) ->
+      self.changed 'meteor_servicecredentials', old._id, getClientService(service)
+    removed: (service) ->
+      self.removed 'meteor_servicecredentials', service._id
+  self.ready()
+  self.onStop ->
+    handle.stop()
+
 ServiceCredentials.exists = (identifier) ->
   @_collection.find(identifier: identifier).count() > 0
 
