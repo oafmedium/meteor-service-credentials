@@ -8,12 +8,25 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0.1');
   api.use('coffeescript', ['client', 'server']);
-  api.addFiles('oaf:service-credentials.coffee');
+  api.use('stylus', 'client');
+  api.use('mongo', 'server');
+  api.addFiles([
+    'server/methods.coffee',
+    'server/service-credentials.coffee',
+  ], 'server');
+  api.addFiles([
+    'client/startup.coffee',
+    'client/views/service-credentials-popup.coffee',
+    'client/views/service-credentials-popup.html',
+    'client/views/service-credentials-popup.styl',
+    ], 'client');
+  api.export('ServiceCredentials', 'server');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('coffeescript', ['client', 'server']);
-  api.use('oaf:service-credentials');
+  api.use('mongo', 'server');
+  api.use('oaf:service-credentials', 'server');
   api.addFiles('oaf:service-credentials-tests.coffee');
 });
