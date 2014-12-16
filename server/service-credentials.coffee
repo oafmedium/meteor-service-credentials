@@ -34,7 +34,6 @@ ServiceCredentials.public = (self) ->
   handle = services.observe
     added: (service) ->
       self.added 'meteor_servicecredentials', service._id, getClientService(service)
-      console.log service
     changed: (service, old) ->
       self.changed 'meteor_servicecredentials', old._id, getClientService(service)
     removed: (service) ->

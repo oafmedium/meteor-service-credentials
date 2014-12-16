@@ -1,7 +1,7 @@
 Package.describe({
   name: 'oaf:service-credentials',
   summary: 'Meteor package for saving credentials of services in database.',
-  version: '1.1.0',
+  version: '1.1.1',
   git: 'https://github.com/oafmedium/meteor-service-credentials.git'
 });
 
