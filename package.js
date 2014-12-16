@@ -10,17 +10,21 @@ Package.onUse(function(api) {
   api.use('coffeescript', ['client', 'server']);
   api.use('stylus', 'client');
   api.use('mongo', 'server');
+  api.use('templating', 'client');
+  api.use('handlebars', 'client');
+
+  api.export('ServiceCredentials', 'server');
+
   api.addFiles([
     'server/methods.coffee',
     'server/service-credentials.coffee',
   ], 'server');
   api.addFiles([
     'client/startup.coffee',
-    'client/views/service-credentials-popup.coffee',
     'client/views/service-credentials-popup.html',
+    'client/views/service-credentials-popup.coffee',
     'client/views/service-credentials-popup.styl',
     ], 'client');
-  api.export('ServiceCredentials', 'server');
 });
 
 Package.onTest(function(api) {
